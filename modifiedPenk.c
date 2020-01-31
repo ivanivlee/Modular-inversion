@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include<stdlib.h>
 
-struct Tuple {
-    int a;
-    int b;
-}; //for returning two integers from functions
 
 // variables and data types
 unsigned int a, p; //from input
+int result, halvings;
 
 int inputCountCheck(int argCount)    //checks number of arguments 
 {
@@ -81,7 +78,7 @@ void binarySandBox (int a, int p) // this is a function with a fex binary operat
 }
 
 
-int modifiedPenk(int a, int p) //the real algorithm is in this function
+int modifiedPenk(int a, int p, int *result, int *halvings) //the real algorithm is in this function
 {
     int u = p; //init - line 1
     int v = a; 
@@ -159,7 +156,8 @@ int modifiedPenk(int a, int p) //the real algorithm is in this function
     {
         r = r + p;
     }
-    printf("Result r = %d, k = %d \n", r, k); //line 27
+    *result = r;
+    *halvings = k;//line 27
     return 0;
 }
 // in: integer a, prime p, 1 <= a <= p - two parametres from terminal
@@ -173,8 +171,8 @@ int main(int argc, char* argv[])
     
     //binarySandBox(a, p); //just playing with binary stuff, to be erased
 
-    modifiedPenk(a, p); //THEREALALGORITHM
-
+    modifiedPenk(a, p, &result, &halvings); //THEREALALGORITHM
+    printf("Result r = %d, k = %d \n", result, halvings);
 
     
     return 0;
