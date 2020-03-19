@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
     
-    //binarySandBox(a, p); //just playing with binary stuff, to be erased
+    binarySandBox(a, p); //just playing with binary stuff, to be erased
 
     modifiedPenk(a, p, &result, &halvings); //THEREALALGORITHM
     printf("Result r = %d, k = %d \n", result, halvings);
