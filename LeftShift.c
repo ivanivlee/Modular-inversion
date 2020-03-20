@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <math.h> 
 
-#define SIZE 8 //size of registers
+#define SIZE 8 //size of registers - for a moment, it is just 8!
 
 
 // variables and data types
@@ -75,7 +75,7 @@ void binarySandBox (int a, int p) // this is a function with a fex binary operat
     //printf("p<<1 = %d %s\n", p << 1, binbin(p<<1)); 
   
     // The result is 00000100 
-    printf("p>>1 = %d %s\n", p >> 1, binbin(p>>1)); 
+    //printf("p>>1 = %d %s\n", p >> 1, binbin(p>>1)); 
 
     return;
 }
@@ -88,6 +88,7 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
     unsigned v = a;
     unsigned r = 0;
     unsigned s = 1;      //init
+    unsigned maskU, maskV;
     int cu = 0;
     int cv = 0;     //counters of left shifts
 
@@ -98,11 +99,85 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
 
 
 
-    //while (u != (2^cu) && u != ~(2^cu) && v != (2^cv) && v != ~(2^cv)) // values with ~ are negative values, represented by complementary value
-    //{      
-    //}
+    while (u != (2^cu) && u != ~(2^cu) && v != (2^cv) && v != ~(2^cv)) // values with ~ are negative values, represented by complementary value
+    {   
+        maskU = (u>>(SIZE-2));
+        maskV = (v>>(SIZE-2));
+        printf("mask, %s", binbin(maskU));
+        printf("mask, %s", binbin(maskV));
+        if (maskU = 0 || (maskU = 0b11 && (u<<2) != 0))
+        {
+            if (cu >= cv)   
+            {
+                u = (u<<1);
+                r = (r<<2);
+                cu++;
+            }
+            else
+            {
+                u = (u<<1);
+                s = (s>>1);
+                cu++;
+            }
+
+        }
+        else if (maskV = 0 || (maskV = 0b11 && (v<<2) != 0))
+        {
+            if (cv >= cu)   
+            {
+                v = (v<<1);
+                s = (s<<2);
+                cv++;
+            }
+            else
+            {
+                v = (v<<1);
+                r = (r>>1);
+                cv++;
+            }
+        }
+        else
+        {
+            maskU = (u>>(SIZE-1));
+            maskV = (v>>(SIZE-1));
+            unsigned oper; //0 is minus, 1 is plus
+            if (maskV == maskU )
+            {
+                oper = 0; //minus
+            }
+            else
+            {
+                oper = 1; //plus
+            }
+            if (cu <= cv)
+            {
+                u = (oper == 0) ? (u - v) : (u + v);
+                r = (oper == 0) ? (r - s) : (r + s);
+            }
+            else
+            {
+                v = (oper == 0) ? (v - u) : (v + u);
+                s = (oper == 0) ? (s - r) : (s + r);
+            }
+
+        
+        }   
+    }
+
+    if (v == (2^cv) || v == ~(2^cv)
+    {
+        r = s;
+        unsigned vn = (v>>(SIZE-1));
+        
+    }
     
-    printf(binbin(temp))
+
+    
+    
+    
+    
+    
+    
     
     return 0;
 }
