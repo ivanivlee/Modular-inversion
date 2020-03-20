@@ -46,7 +46,10 @@ void binarySandBox (int a, int p) // this is a function with a fex binary operat
     //printf("p>>1 = %d %s\n", p >> 1, binbin(p>>1)); 
     printf("p>>2 = %d %s\n", p >> 2, binbin(p>>2));
 
-    printf("bez prvnich dvou bitu = %s\n", binbin((p<<2)>>2));
+    unsigned c = p>>7;
+    unsigned d = c<<7;
+    printf("posunute = %s\n", binbin(c));
+    printf("ustrihnute = %s\n", binbin(d));
 
     return;
 }

@@ -164,21 +164,34 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         }   
     }
 
-    if (v == (2^cv) || v == ~(2^cv)
+    if (v == (2^cv) || v == ~(2^cv))
     {
         r = s;
-        unsigned vn = (v>>(SIZE-1));
-        
+        unsigned vnShifted = (v>>(SIZE-1)); //the value is (0, 0, ..., vn)
+        unsigned vnCorrect = (vnShifted<<(SIZE -1)); //the value is (vn, 0, 0, ..., 0)
+        unsigned unShifted = (u>>(SIZE-1)); //the value is (0, 0, ..., un)
+        unsigned unCorrect = (unShifted<<(SIZE -1)); //the value is (un, 0, 0, ..., 0)
+        u = u^unCorrect^vnCorrect; //the result is un := vn
+    }
+
+    if (u>>(SIZE-1) == 1)
+    {
+        if (r < 0)
+        {
+            r = ~r;
+        }
+        else
+        {
+            r = p - r;
+        }  
     }
     
-
+    if (r < 0)
+    {
+        r = r + p;
+    }
     
-    
-    
-    
-    
-    
-    
+    printf("The results:\nr = %d %s, cu = %d, cv = %d", r, binbin(r), cu, cv);
     return 0;
 }
 
