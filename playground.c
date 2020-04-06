@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     a = 0b1;
     p = 0b10101010;
     binarySandBox(a, p); //just playing with binary stuff, to be erased
-
+    printf("%s ", binbin(0b1010&0b0011));
   
 
     

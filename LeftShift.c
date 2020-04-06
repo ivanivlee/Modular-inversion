@@ -80,6 +80,12 @@ void binarySandBox (int a, int p) // this is a function with a fex binary operat
     return;
 }
 
+int power(int base, unsigned int exp) {
+    int i, result = 1;
+    for (i = 0; i < exp; i++)
+        result *= base;
+    return result;
+ }
 
 int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is in this function 
 {
@@ -92,20 +98,17 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
     int cu = 0;
     int cv = 0;     //counters of left shifts
 
-    printf("u,v\n");
-    binarySandBox(u,v);
-    printf("r,s\n");
-    binarySandBox(r,s);
 
-
-
-    while (u != (2^cu) && u != ~(2^cu) && v != (2^cv) && v != ~(2^cv)) // values with ~ are negative values, represented by complementary value
+    while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) // values with ~ are negative values, represented by complementary value
     {   
-        maskU = (u>>(SIZE-2));
+        printf("went this way because %d != %d and %d != %d.\n", u, power(2, cu), v, power(2, cv));
+        printf("u = %d, %s\n",u, binbin(u));
+        printf("v = %d, %s\n",v, binbin(v));
+        maskU = (u>>(SIZE-2)); //could be done by oper AND with a string of the right length, but this is maybe easier
         maskV = (v>>(SIZE-2));
-        printf("mask, %s", binbin(maskU));
-        printf("mask, %s", binbin(maskV));
-        if (maskU = 0 || (maskU = 0b11 && (u<<2) != 0))
+        printf("mask u, %s\n", binbin(maskU));
+        printf("mask v, %s\n", binbin(maskV));
+        if ((maskU == 0) || ((maskU == 0b11) && (u<<2) != 0))
         {
             if (cu >= cv)   
             {
@@ -121,7 +124,7 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
             }
 
         }
-        else if (maskV = 0 || (maskV = 0b11 && (v<<2) != 0))
+        else if ((maskV == 0) || ((maskV = 0b11) && (v<<2) != 0))
         {
             if (cv >= cu)   
             {
@@ -164,7 +167,9 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         }   
     }
 
-    if (v == (2^cv) || v == ~(2^cv))
+    printf("while cycle ended because |%d| = %d or |%d| = %d.\n", u, power(2, cu), v, power(2, cv));
+
+    if (v == (2^cv) || v == -(2^cv))
     {
         r = s;
         unsigned vnShifted = (v>>(SIZE-1)); //the value is (0, 0, ..., vn)
@@ -178,7 +183,7 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
     {
         if (r < 0)
         {
-            r = ~r;
+            r = -r;
         }
         else
         {
@@ -191,7 +196,7 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         r = r + p;
     }
     
-    printf("The results:\nr = %d %s, cu = %d, cv = %d", r, binbin(r), cu, cv);
+    printf("The results:\nr = %d %s, cu = %d, cv = %d \n", r, binbin(r), cu, cv);
     return 0;
 }
 
@@ -205,6 +210,7 @@ int main(int argc, char* argv[])
     a = atoi(argv[1]); // convert to int
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
+    
     
     binarySandBox(a, p); //just playing with binary stuff, to be erased
 
