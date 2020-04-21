@@ -84,7 +84,7 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
     {
         r = r - p; //line 15
     }
-    printf("Almost Montgomery Inverse y = %d\n", p - r);
+    //printf("Almost Montgomery Inverse y = %d\n", p - r);
     //Phase 2
     //almost Montgomery inverse y:
     r = p - r;
@@ -99,7 +99,7 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
             r = (r + p)>>1;
         }                
     }
-    printf("Result r = %d\n", r);
+    //printf("Result r = %d\n", r);
     *result = r;
     *halvings = k<<1;
     return 0;
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
     if (inputSizeCheck(a, p) == 1){return 1;}
     
     montgomery(a, p, &result, &halvings); //THEREALALGORITHM
-    printf("Result r = %d, k = %d \n", result, halvings);
+    printf("%d %d %d\n", a, result, p);
 
     
     return 0;

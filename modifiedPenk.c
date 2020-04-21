@@ -2,6 +2,7 @@
 #include<stdlib.h>
 
 
+
 // variables and data types
 unsigned int a, p; //from input
 int result, halvings;
@@ -95,14 +96,14 @@ int modifiedPenk(int a, int p, int *result, int *halvings) //the real algorithm 
                 u = u>>1; //halving - right shift
                 r = r>>1; 
                 k++; //line 6
-                printf("u = %d r = %d k = %d \n", u, r, k);
+                //printf("u = %d r = %d k = %d \n", u, r, k);
             }
             else
             {
                 u = u>>1; //halving - right shift
                 r = (r + p)>>1; 
                 k++; //line 8
-                printf("u = %d r = %d k = %d \n", u, r, k);
+                //printf("u = %d r = %d k = %d \n", u, r, k);
             }
         }
         else if (v % 2 == 0)
@@ -112,14 +113,14 @@ int modifiedPenk(int a, int p, int *result, int *halvings) //the real algorithm 
                 v = v>>1; //halving - right shift
                 s = s>>1; 
                 k++; //line 11
-                printf("v = %d s = %d k = %d \n", v, s, k);
+                //printf("v = %d s = %d k = %d \n", v, s, k);
             }
             else
             {
                 v = v>>1; //halving - right shift
                 s = (s + p)>>1; 
                 k++; //line 11
-                printf("v = %d s = %d k = %d \n", v, s, k);
+                //printf("v = %d s = %d k = %d \n", v, s, k);
             }
             
         }
@@ -160,6 +161,9 @@ int modifiedPenk(int a, int p, int *result, int *halvings) //the real algorithm 
     *halvings = k;//line 27
     return 0;
 }
+
+
+
 // in: integer a, prime p, 1 <= a <= p - two parametres from terminal
 int main(int argc, char* argv[])
 {
@@ -169,10 +173,11 @@ int main(int argc, char* argv[])
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
     
-    binarySandBox(a, p); //just playing with binary stuff, to be erased
+    //binarySandBox(a, p); //just playing with binary stuff, to be erased
 
     modifiedPenk(a, p, &result, &halvings); //THEREALALGORITHM
-    printf("Result r = %d, k = %d \n", result, halvings);
+
+    printf("%d %d %d \n", a, result, p);
 
     
     return 0;
