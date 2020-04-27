@@ -2,12 +2,11 @@
 #include<stdlib.h>
 #include <math.h> 
 
-#define SIZE 8 //size of registers - for a moment, it is just 8!
-
+typedef signed short int NUM; //the basic data type for all the operations
 
 // variables and data types
-unsigned int a, p; //from input
-int result, halvings;
+NUM a, p; //from input
+NUM result, halvings; //to store the result and counter of halvings
 
 int inputCountCheck(int argCount)    //checks number of arguments 
 {
@@ -23,93 +22,64 @@ int inputCountCheck(int argCount)    //checks number of arguments
     }
     return 0;
 }
-int inputSizeCheck(int a, int p)    //checks whether 1 <= a <= p or not
+int inputSizeCheck(NUM a, NUM p)    //checks whether 1 <= a <= p or not
 {
      if (a < 1)
     {
-        printf("Integer a is too small. \n");
+        printf("Argument a is too small. \n");
         return 1;
     }
     if (a > p)
     {
-        printf("Integer a is too big. \n");
+        printf("Argument a is too big. \n");
         return 1;
     }
     return 0;
 }
 
-
-char *binbin(int n)     //display binary
+NUM power(NUM base, NUM exp) //calculate base to the power of exp
 {
-    static char bin[SIZE+1];
-    int x;
-    for( x = 0; x < SIZE; x++)
-    {
-        bin[x] = n & 0x80 ? '1' : '0';
-        n <<= 1;
-    }
-    bin[x] = ' ';
-    return(bin);
-}
-
-void binarySandBox (int a, int p) // this is a function with a fex binary operations, just for test and inspiration. to be erased.
-{
-    //printf("Integer a = %d \n", a);
-    //printf("Prime p = %d \n", p);
-    
-    printf("%d is binary %s\n", a, binbin(a));
-    printf("%d is binary %s\n", p, binbin(p));
-
-    //printf("a&p = %d %s\n", a & p, binbin(a & p)); 
-  
-    // The result is 00001101 
-    //printf("a|p = %d %s\n", (a | p), binbin(a | p)); 
-  
-    // The result is 00001100 
-    //printf("a^p = %d %s\n", a ^ p, binbin(a^p)); 
-  
-    // The result is 11111010 
-    //printf("~a = %hu %s\n", ~a, binbin(~a)); 
-  
-    // The result is 00010010 
-    //printf("p<<1 = %d %s\n", p << 1, binbin(p<<1)); 
-  
-    // The result is 00000100 
-    //printf("p>>1 = %d %s\n", p >> 1, binbin(p>>1)); 
-
-    return;
-}
-
-int power(int base, unsigned int exp) {
-    int i, result = 1;
+    NUM i, result = 1;
     for (i = 0; i < exp; i++)
         result *= base;
     return result;
- }
+}
 
-int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is in this function 
+int bin(NUM n) //display binary
+{ 
+    NUM i;  
+    int size = 8*(sizeof(NUM));
+    for (i = 1 << (size - 2); i > 0; i = i / 2) // size - 1 if unsigned, size - 2 if unsigned
+        (n & i)? printf("1"): printf("0"); 
+    printf("\n");
+    return 0;
+} 
+
+NUM leftshift(NUM a, NUM p) //the real algorithm is in this function 
 {
     //Phase 1
-    unsigned u = p;
-    unsigned v = a;
-    unsigned r = 0;
-    unsigned s = 1;      //init
-    unsigned maskU, maskV;
+    NUM u = p;
+    NUM v = a;
+    NUM r = 0;
+    NUM s = 1;      //init
+    NUM maskU, maskV;
     int cu = 0;
     int cv = 0;     //counters of left shifts
+    int size = sizeof(NUM)*8;
 
-
-    while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) // values with ~ are negative values, represented by complementary value
+    //while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) 
+    int i = 0;
+    while (i < 5)
     {   
-        printf("went this way because %d != %d and %d != %d.\n", u, power(2, cu), v, power(2, cv));
-        printf("u = %d, %s\n",u, binbin(u));
-        printf("v = %d, %s\n",v, binbin(v));
-        maskU = (u>>(SIZE-2)); //could be done by oper AND with a string of the right length, but this is maybe easier
-        maskV = (v>>(SIZE-2));
-        printf("mask u, %s\n", binbin(maskU));
-        printf("mask v, %s\n", binbin(maskV));
-        if ((maskU == 0) || ((maskU == 0b11) && (u<<2) != 0))
+        i++;
+        NUM mask = 0b11 << (size - 3);
+        bin(u);
+        bin(mask&u);
+        bin(v);
+        bin(mask&v);
+        if (((mask&u) == 0) || (((mask&u) == 0b11) && ((u<<2) != 0)))
         {
+            printf("line 5 - uvnitr prvniho if \n");
             if (cu >= cv)   
             {
                 u = (u<<1);
@@ -122,10 +92,10 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
                 s = (s>>1);
                 cu++;
             }
-
         }
-        else if ((maskV == 0) || ((maskV = 0b11) && (v<<2) != 0))
+        else if (((mask&v) == 0) || (((mask&v) == 0b11) && (v<<2) != 0))
         {
+            printf("line 10 - uvnitr else if \n");
             if (cv >= cu)   
             {
                 v = (v<<1);
@@ -141,9 +111,12 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         }
         else
         {
-            maskU = (u>>(SIZE-1));
-            maskV = (v>>(SIZE-1));
-            unsigned oper; //0 is minus, 1 is plus
+            printf("line 15 - else vetev \n");
+            maskU = (u>>(size-2));
+            maskV = (v>>(size-2));
+            bin(maskU);
+            bin(maskV);
+            NUM oper; //0 is minus, 1 is plus
             if (maskV == maskU )
             {
                 oper = 0; //minus
@@ -167,19 +140,18 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         }   
     }
 
-    printf("while cycle ended because |%d| = %d or |%d| = %d.\n", u, power(2, cu), v, power(2, cv));
 
-    if (v == (2^cv) || v == -(2^cv))
+    if (v == power(2,cv) || v == -power(2,cv))
     {
         r = s;
-        unsigned vnShifted = (v>>(SIZE-1)); //the value is (0, 0, ..., vn)
-        unsigned vnCorrect = (vnShifted<<(SIZE -1)); //the value is (vn, 0, 0, ..., 0)
-        unsigned unShifted = (u>>(SIZE-1)); //the value is (0, 0, ..., un)
-        unsigned unCorrect = (unShifted<<(SIZE -1)); //the value is (un, 0, 0, ..., 0)
+        NUM vnShifted = (v>>(size-2)); //the value is (0, 0, ..., vn)
+        NUM vnCorrect = (vnShifted<<(size - 2)); //the value is (vn, 0, 0, ..., 0)
+        NUM unShifted = (u>>(size - 2)); //the value is (0, 0, ..., un)
+        NUM unCorrect = (unShifted<<(size - 2)); //the value is (un, 0, 0, ..., 0)
         u = u^unCorrect^vnCorrect; //the result is un := vn
     }
 
-    if (u>>(SIZE-1) == 1)
+    if (u>>(size - 2) == 1)
     {
         if (r < 0)
         {
@@ -196,7 +168,8 @@ int leftshift(int a, int p, int *result, int *halvings) //the real algorithm is 
         r = r + p;
     }
     
-    printf("The results:\nr = %d %s, cu = %d, cv = %d \n", r, binbin(r), cu, cv);
+    printf("The results:\nr = %d \n", r);
+    bin(r);
     return 0;
 }
 
@@ -211,12 +184,9 @@ int main(int argc, char* argv[])
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
     
+    leftshift( a, p);
     
-    binarySandBox(a, p); //just playing with binary stuff, to be erased
-
-    leftshift(a, p, &result, &halvings); //THEREALALGORITHM
-    printf("Size of the registers is %d. \n", SIZE);
-
+    
     
     return 0;
 }
