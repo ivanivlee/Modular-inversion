@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <math.h> 
 
-typedef signed short int NUM; //the basic data type for all the operations
+typedef signed char NUM; //the basic data type for all the operations
 
 // variables and data types
 NUM a, p; //from input
@@ -45,12 +45,13 @@ NUM power(NUM base, NUM exp) //calculate base to the power of exp
     return result;
 }
 
-int bin(NUM n) //display binary
+int bin(NUM n) //display binary of SIGNED NUM
 { 
     NUM i;  
     int size = 8*(sizeof(NUM));
-    for (i = 1 << (size - 2); i > 0; i = i / 2) // size - 1 if unsigned, size - 2 if unsigned
-        (n & i)? printf("1"): printf("0"); 
+    (n < 0)? printf("1 "): printf("0 "); 
+    for (i = 1 << (size - 2); i > 0; i = i / 2) // size - 1 if unsigned, size - 2 if signed
+        (n & i)? printf("1 "): printf("0 ");  
     printf("\n");
     return 0;
 } 
@@ -69,14 +70,16 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
 
     //while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) 
     int i = 0;
-    while (i < 5)
+    while (i < 6)
     {   
         i++;
-        NUM mask = 0b11 << (size - 3);
-        bin(u);
+        NUM mask = 0b11 << (size - 2);
+        printf("u = %d, ", u); bin(u);
+        printf("v = %d, ", v); bin(v);
+        printf("r = %d, ", r); bin(r);
+        printf("cu = %d, ", cu); bin(cu);
         bin(mask&u);
-        bin(v);
-        bin(mask&v);
+        bin(mask);
         if (((mask&u) == 0) || (((mask&u) == 0b11) && ((u<<2) != 0)))
         {
             printf("line 5 - uvnitr prvniho if \n");
