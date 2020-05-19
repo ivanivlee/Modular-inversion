@@ -67,20 +67,27 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
     int cu = 0;
     int cv = 0;     //counters of left shifts
     int size = sizeof(NUM)*8;
-
-    //while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) 
     int i = 0;
-    while (i < 6)
-    {   
-        i++;
-        NUM mask = 0b11 << (size - 2);
+
+        //to be erased, just text checkers
         printf("u = %d, ", u); bin(u);
         printf("v = %d, ", v); bin(v);
         printf("r = %d, ", r); bin(r);
-        printf("cu = %d, ", cu); bin(cu);
-        bin(mask&u);
-        bin(mask);
-        if (((mask&u) == 0) || (((mask&u) == 0b11) && ((u<<2) != 0)))
+        printf("s = %d, ", s); bin(s);
+        printf("cu = %d, 2^cu = %d ", cu, power(2, cu)); bin(cu);
+        printf("cv = %d, 2^cv = %d ", cv, power(2, cv)); bin(cv);
+
+
+    while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) 
+  
+    //while (i < 11)
+    {   
+        i++; 
+        NUM mask = 0b11 << (size - 2);
+        printf("________________________________________________________________________________________________________\n");
+        printf("%d\n",i);
+        
+        if (((mask&u) == 0) || (((mask&u) == mask) && ((u<<2) != 0)))
         {
             printf("line 5 - uvnitr prvniho if \n");
             if (cu >= cv)   
@@ -96,13 +103,13 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
                 cu++;
             }
         }
-        else if (((mask&v) == 0) || (((mask&v) == 0b11) && (v<<2) != 0))
+        else if (((mask&v) == 0) || (((mask&v) == mask) && (v<<2) != 0))
         {
             printf("line 10 - uvnitr else if \n");
             if (cv >= cu)   
             {
                 v = (v<<1);
-                s = (s<<2);
+                s = (s<<1);
                 cv++;
             }
             else
@@ -115,12 +122,12 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
         else
         {
             printf("line 15 - else vetev \n");
-            maskU = (u>>(size-2));
-            maskV = (v>>(size-2));
+            maskU = (u>>(size-1));
+            maskV = (v>>(size-1));
             bin(maskU);
             bin(maskV);
             NUM oper; //0 is minus, 1 is plus
-            if (maskV == maskU )
+            if (maskV == maskU ) //check if the signs are the same
             {
                 oper = 0; //minus
             }
@@ -128,19 +135,30 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
             {
                 oper = 1; //plus
             }
+            printf("oper = %d\n", oper);
             if (cu <= cv)
             {
+                printf("cu <= cv\n");
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
             }
             else
             {
+                printf("cv <= cu\n");
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
             }
 
         
         }   
+        printf("u = %d, ", u); bin(u);
+        printf("v = %d, ", v); bin(v);
+        printf("r = %d, ", r); bin(r);
+        printf("s = %d, ", s); bin(s);
+        printf("cu = %d, 2^cu = %d ", cu, power(2, cu)); bin(cu);
+        printf("cv = %d, 2^cv = %d ", cv, power(2, cv)); bin(cv);
+        printf("mask&u ");bin(mask&u);
+        printf("mask&v ");bin(mask&v);
     }
 
 
@@ -152,23 +170,27 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
         NUM unShifted = (u>>(size - 2)); //the value is (0, 0, ..., un)
         NUM unCorrect = (unShifted<<(size - 2)); //the value is (un, 0, 0, ..., 0)
         u = u^unCorrect^vnCorrect; //the result is un := vn
+        printf("line 24");
     }
 
-    if (u>>(size - 2) == 1)
+    if (u < 0)
     {
         if (r < 0)
         {
             r = -r;
+            printf("line 27");
         }
         else
         {
             r = p - r;
+            printf("line 29");
         }  
     }
     
     if (r < 0)
     {
         r = r + p;
+        printf("line 31");
     }
     
     printf("The results:\nr = %d \n", r);
