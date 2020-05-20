@@ -1,16 +1,23 @@
 # Modular-inversion
 Complexity analysis of binary algorithms for Modular inversion
 
+The repo consists of two folders - 'src original algorithms' and 'counting the operations'.
 
-Modified Penk - algorithm 1\
+## src original algorithms
+This folder contains the original algorithms implemented by design in the paper. They are tested on small primes, just to ensure the quality of the implementation. The tests are included (testgen). 
+To do:
+ - test it properly with bigger values
+ - implement version with bigger numbers than signed integers
+ 
+### Compilation
+- compile with `gcc LeftShift.c -o leftshift`
+
+Modified Penk - algorithm 1
 input: integer a, prime p (will have to figure out the bounds)
 issues to deal with:
 - binary input?
 - size of the input, regarding to the size of the registers
 
-
-Compilation
-- compile with `gcc LeftShift.c -o leftshift`
 
 TestGen: 
 - program for generating test sh script for the other algorithms
@@ -20,3 +27,4 @@ TestGen:
 - testGen then generates a sh file with lines of the form "a b M" where a*b = 1 mod M, compiles the given algorithm and runs it between generating trios
 - n should be between 1 and 100000
 - TO DO: You shouldn't check the results manually, but for now you have to. Implement comparing of the result values.
+
