@@ -9,16 +9,25 @@
 unsigned int count;
 int algorithm;
 
+int advice()
+{
+    printf("Expected usage: ./testgen <upper bound for the size of the primes> <ID of the algorithm>\nEnter 1 for modified Penk, 2 for Montgomery, 3 for LeftShift.\n");
+    printf("Upper bound should be between 1 and 100000.\n");
+    return 0;
+}
+
 int inputCountCheck(int argCount)    //checks number of arguments, should be 2 - count and ID of algorithm
 {
     if (argCount > 3)   
     {
         printf("Too many arguments. \n");
+        advice();
         return 1;
     }
     if (argCount < 3)   
     {
         printf("Too few arguments. \n");
+        advice();
         return 1;
     }
     return 0;
@@ -29,11 +38,13 @@ int inputSizeCheck(unsigned int count)    //checks whether 1 <= count <= maxcoun
     if (count < 2)
     {
         printf("Integer a is too small, should be at least 2. \n");
+        advice();
         return 1;
     }
     if (count > MAXCOUNT)
     {
         printf("Integer a is too big. Max count is %d. \n", MAXCOUNT);
+        advice();
         return 1;
     }
     return 0;
@@ -112,6 +123,7 @@ int fileGen (unsigned int count, int alg) //generates test data and stores them 
     
     /* Success message */
     printf("File testgen.sh created and saved successfully. :) \n");
+    printf("Now enter 'chmod +x testgen.sh' and './testgen.sh' \n");
     return 0;
 }
 
