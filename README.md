@@ -4,20 +4,23 @@ Complexity analysis of binary algorithms for Modular inversion
 The repo consists of two folders - 'src original algorithms' and 'counting the operations'.
 
 ## src original algorithms
-This folder contains the original algorithms implemented by design in the paper. They are tested on small primes, just to ensure the quality of the implementation. The tests are included (testgen). 
-To do:
- - test it properly with bigger values
- - implement version with bigger numbers than signed integers
- 
+This folder contains the original algorithms implemented by design in the paper. They are tested on small primes, just to ensure the quality of the implementation. 
+
 ### Compilation
 - compile with `gcc LeftShift.c -o leftshift`
 
 Modified Penk - algorithm 1
 input: integer a, prime p (will have to figure out the bounds)
+
 issues to deal with:
 - binary input?
 - size of the input, regarding to the size of the registers
 
+Montgomery - algorithm 2
+input: integer a, prime p
+
+LeftShift - algorithm 3
+input: integer a, prime p
 
 TestGen: 
 - program for generating test sh script for the other algorithms
