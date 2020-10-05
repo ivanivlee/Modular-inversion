@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <math.h> 
 
-typedef signed long NUM; //the basic data type for all the operations / has to be signed to function!
+typedef signed short NUM; //the basic data type for all the operations / has to be signed to function!
 
 // variables and data types
 NUM a, p; //from input
@@ -135,17 +135,29 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
             }
             if (cu <= cv)
             {
-                u = (oper == 0) ? (u - v) : (u + v);
-                u = (oper == 0) ? (sub++) : (add++);
-                r = (oper == 0) ? (r - s) : (r + s);
-                r = (oper == 0) ? (sub++) : (add++);
+                if (oper == 0)
+                {
+                    u = (u - v); (sub++);
+                    r = (r - s); (sub++);                     
+                }
+                else
+                {
+                    u = (u + v); (add++);
+                    r = (r + s); (add++);
+                }                
             }
             else
             {
-                v = (oper == 0) ? (v - u) : (v + u);
-                v = (oper == 0) ? (sub++) : (add++);
-                s = (oper == 0) ? (s - r) : (s + r);
-                s = (oper == 0) ? (sub++) : (add++);
+                if (oper == 0)
+                {
+                    v = (v - u); (sub++);
+                    s = (s - r); (sub++);                     
+                }
+                else
+                {
+                    v = (v + u); (add++);
+                    s = (s + r); (add++);
+                } 
             }
 
         
@@ -182,14 +194,14 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
         add++;
     }
     
-    printf("test = %d\n", test);
+    /*printf("test = %d\n", test);
     printf("even = %d\n", even);
     printf("add = %d\n", add);
     printf("sub = %d\n", sub);
     printf("rshift = %d\n", rshift);
-    printf("lshift = %d\n", lshift);
+    printf("lshift = %d\n", lshift);*/
 
-    printf("%ld %ld %ld\n", a, r, p);
+    printf("%d %d %d\n", a, r, p);
     return 0;
 }
 
