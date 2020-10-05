@@ -24,7 +24,8 @@ input: integer a, prime p
 
 TestGen: 
 - program for generating test sh script for the other algorithms
-- to generate set of test data, testGen.exe takes 2 arguments - size of the test data 
+- first: compile testGen.c using "gcc testGen.c -o testGen"
+- to generate set of test data, testGen takes 2 arguments - size of the test data 
 (integer - script will test all prime numbers lower than n) (ID of an algorithm / 1 for modified Penk, 2 for Montgomery, 3 for LeftShift)
 - enter "./testGen n id"
 - testGen then generates a sh file with lines of the form "a b M" where a*b = 1 mod M, compiles the given algorithm and runs it between generating trios
