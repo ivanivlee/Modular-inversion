@@ -5,12 +5,19 @@
 
 primes = [int(line.rstrip('\n')) for line in open("resource/primes.txt")]
 
-script = open("counting.sh", "w")
-f.write("Now the file has more content!")
+#this will loop through all the primes
+#primes = [3, 5, 7, 11] 
 
-
-for prime in primes:
+for prime in primes: 
+    filename =  "scripts/" + str(prime) + ".sh"
+    print(filename)
+    script = open(filename, "w+")
+    script.write("#!/bin/bash\n")
     for i in range(2, prime):
-        script.write(alg1)
+        script.write("alg1 {0} {1}\n".format(i, prime))
+        script.write("alg2 {0} {1}\n".format(i, prime))
+        script.write("alg3 {0} {1}\n".format(i, prime))
+    #print("Running script generated for prime {}".format(prime))
+    script.close()
 
-script.close()
+    
