@@ -1,5 +1,13 @@
+## Algorithm comparison
+In the beginning, a brief comparison between the three algorithms has been made. The test set included first 1899 prime numbers. Then the three algorithms were used for finding the modular inverse for all the integers from 2 do p - 1. We counted the average, minimal and maximal amount of operations such as addition, subtraction, left and right shifts and tests if a number is positive or negative.
 ### data format:
 [test, even, add, sub, rshift, lshift]
+- test: u < 0
+- even: u == 0
+- add: u + v
+- sub: u - v
+- rshift: u >> 1
+- lshift: u << 1
 
 ### Algorithm 1 - modified Penk's algorithm
 |    | test | even | add | sub | rshift | lshift |
