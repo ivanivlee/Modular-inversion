@@ -1,6 +1,6 @@
 #!/bin/bash
 START=$(date +%s.%N)
-chmod +x 2.sh
+
 chmod +x 3.sh
 chmod +x 5.sh
 chmod +x 7.sh
