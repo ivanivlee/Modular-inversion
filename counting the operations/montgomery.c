@@ -50,8 +50,7 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
     //counters
     int add = 0;
     int sub = 0;
-    int rshift = 0;
-    int lshift = 0;
+    int shift = 0;
     int even = 0;
     int test = 0;
 
@@ -63,9 +62,9 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
         {
             even++; //if (u % 2 == 0)
             u = u>>1;
-            rshift++;
+            shift++;
             s = s<<1; //multiply by 2 - left shift, line 5
-            lshift++;
+            shift++;
             k++;
         }
         else if (v % 2 == 0)
@@ -73,9 +72,9 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
             even++; //if (u % 2 == 0)
             even++; //if (v % 2 == 0)
             v = v>>1;
-            rshift++;
+            shift++;
             r = r<<1;
-            lshift++;
+            shift++;
             k++;
         }
         else //line 8
@@ -88,21 +87,21 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
             if (x > 0)
             {
                 u = x>>1;
-                rshift++;
+                shift++;
                 r = r + s;
                 add++;
                 s = s<<1;
-                lshift++;
+                shift++;
                 k++;
             }
             else //line 12
             {
                 v = -(x>>1);
-                rshift++;
+                shift++;
                 s = r + s;
                 add++;
                 r = r<<1;
-                lshift++;
+                shift++;
                 k++;
             }
             
@@ -125,25 +124,23 @@ int montgomery(int a, int p, int *result, int *halvings) //the real algorithm is
         if (r % 2 == 0)
         {
             r = r>>1;
-            rshift++;
+            shift++;
         }
         else
         {
             r = (r + p)>>1;
             add++;
-            rshift++;
+            shift++;
         }                
     }
     //printf("Result r = %d\n", r);
     *result = r;
     *halvings = k<<1;
 
-    printf("test = %d\n", test);
-    printf("even = %d\n", even);
-    printf("add = %d\n", add);
-    printf("sub = %d\n", sub);
-    printf("rshift = %d\n", rshift);
-    printf("lshift = %d\n", lshift);
+    FILE *fp;
+    fp = fopen("secondresults2.txt", "w+");
+    fprintf(fp, "%d %d %d %d %d %d %d\n", a, r, p, test, add, sub, shift);
+    fclose(fp);
 
     return 0;
 }

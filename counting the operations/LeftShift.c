@@ -72,8 +72,7 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
     //counters
     int add = 0;
     int sub = 0;
-    int rshift = 0;
-    int lshift = 0;
+    int shift = 0;
     int even = 0;
     int test = 0;
 
@@ -87,17 +86,17 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
             if (cu >= cv)   
             {
                 u = (u<<1);
-                lshift++;
+                shift++;
                 r = (r<<1);
-                lshift++;
+                shift++;
                 cu++;
             }
             else
             {
                 u = (u<<1);
-                lshift++;
+                shift++;
                 s = (s>>1);
-                rshift++;
+                shift++;
                 cu++;
             }
         }
@@ -106,17 +105,17 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
             if (cv >= cu)   
             {
                 v = (v<<1);
-                lshift++;
+                shift++;
                 s = (s<<1);
-                lshift++;
+                shift++;
                 cv++;
             }
             else
             {
                 v = (v<<1);
-                lshift++;
+                shift++;
                 r = (r>>1);
-                rshift++;
+                shift++;
                 cv++;
             }
         }
@@ -167,10 +166,10 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
     if (v == power(2,cv) || v == -power(2,cv))
     {
         r = s;
-        NUM vnShifted = (v>>(size-2)); //the value is (0, 0, ..., vn)
-        NUM vnCorrect = (vnShifted<<(size - 2)); //the value is (vn, 0, 0, ..., 0)
-        NUM unShifted = (u>>(size - 2)); //the value is (0, 0, ..., un)
-        NUM unCorrect = (unShifted<<(size - 2)); //the value is (un, 0, 0, ..., 0)
+        NUM vnshifted = (v>>(size-2)); //the value is (0, 0, ..., vn)
+        NUM vnCorrect = (vnshifted<<(size - 2)); //the value is (vn, 0, 0, ..., 0)
+        NUM unshifted = (u>>(size - 2)); //the value is (0, 0, ..., un)
+        NUM unCorrect = (unshifted<<(size - 2)); //the value is (un, 0, 0, ..., 0)
         u = u^unCorrect^vnCorrect; //the result is un := vn
     }
     test++;
@@ -194,14 +193,12 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
         add++;
     }
     
-    /*printf("test = %d\n", test);
-    printf("even = %d\n", even);
-    printf("add = %d\n", add);
-    printf("sub = %d\n", sub);
-    printf("rshift = %d\n", rshift);
-    printf("lshift = %d\n", lshift);*/
+    FILE *fp;
+    fp = fopen("secondresults3.txt", "w+");
+    fprintf(fp, "%d %d %d %d %d %d %d\n", a, r, p, test, add, sub, shift);
+    fclose(fp);
 
-    printf("%d %d %d\n", a, r, p);
+    //printf("%d %d %d\n", a, r, p);
     return 0;
 }
 

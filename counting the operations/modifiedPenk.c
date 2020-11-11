@@ -198,11 +198,11 @@ int modifiedPenk(int a, int p, int *result, int *halvings) //the real algorithm 
     *result = r;
     *halvings = k;//line 27
 
-    printf("test = %d\n", test);
-    printf("even = %d\n", even);
-    printf("add = %d\n", add);
-    printf("sub = %d\n", sub);
-    printf("shift = %d\n", shift);
+    FILE *fp;
+    fp = fopen("secondresults1.txt", "w+");
+    fprintf(fp, "%d %d %d %d %d %d %d\n", a, r, p, test, add, sub, shift);
+    fclose(fp);
+
     return 0;
 
 }

@@ -14,9 +14,11 @@ for prime in primes:
     script = open(filename, "w+")
     script.write("#!/bin/bash\n")
     for i in range(2, prime):
-        script.write("alg1 {0} {1}\n".format(i, prime))
-        script.write("alg2 {0} {1}\n".format(i, prime))
-        script.write("alg3 {0} {1}\n".format(i, prime))
+        #script.write("alg1 {0} {1}\n".format(i, prime))
+        #script.write("alg2 {0} {1}\n".format(i, prime))
+        #script.write("alg3 {0} {1}\n".format(i, prime))
+        script.write("./alg4 {0} {1}\n".format(i, prime))
+        script.write("./alg5 {0} {1}\n".format(i, prime))
     #print("Running script generated for prime {}".format(prime))
     script.close()
 
