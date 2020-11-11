@@ -1904,7 +1904,7 @@ echo "permissions changed"
 END=$(date +%s.%N)
 DIFF=$(echo "$END - $START" | bc)
 echo $DIFF
-./2.sh
+
 ./3.sh
 ./5.sh
 ./7.sh
@@ -2215,6 +2215,10 @@ echo $DIFF
 ./1993.sh
 ./1997.sh
 ./1999.sh
+echo "2000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./2003.sh
 ./2011.sh
 ./2017.sh
@@ -2342,6 +2346,10 @@ echo $DIFF
 ./2969.sh
 ./2971.sh
 ./2999.sh
+echo "3000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./3001.sh
 ./3011.sh
 ./3019.sh
@@ -2585,6 +2593,10 @@ echo $DIFF
 ./4987.sh
 ./4993.sh
 ./4999.sh
+echo "5000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./5003.sh
 ./5009.sh
 ./5011.sh
@@ -2820,6 +2832,10 @@ echo $DIFF
 ./6983.sh
 ./6991.sh
 ./6997.sh
+echo "7000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./7001.sh
 ./7013.sh
 ./7019.sh
@@ -3041,6 +3057,10 @@ echo $DIFF
 ./8969.sh
 ./8971.sh
 ./8999.sh
+echo "9000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./9001.sh
 ./9007.sh
 ./9011.sh
@@ -3263,6 +3283,10 @@ echo $DIFF
 ./10979.sh
 ./10987.sh
 ./10993.sh
+echo "11000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./11003.sh
 ./11027.sh
 ./11047.sh
@@ -3366,6 +3390,10 @@ echo $DIFF
 ./11971.sh
 ./11981.sh
 ./11987.sh
+echo "12000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./12007.sh
 ./12011.sh
 ./12037.sh
@@ -3475,6 +3503,10 @@ echo $DIFF
 ./12973.sh
 ./12979.sh
 ./12983.sh
+echo "13000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./13001.sh
 ./13003.sh
 ./13007.sh
@@ -3580,6 +3612,10 @@ echo $DIFF
 ./13967.sh
 ./13997.sh
 ./13999.sh
+echo "14000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./14009.sh
 ./14011.sh
 ./14029.sh
@@ -3682,6 +3718,10 @@ echo $DIFF
 ./14957.sh
 ./14969.sh
 ./14983.sh
+echo "15000"
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
 ./15013.sh
 ./15017.sh
 ./15031.sh
