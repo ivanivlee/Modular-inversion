@@ -31,3 +31,9 @@ In the beginning, a brief comparison between the three algorithms has been made.
 | average: | 23.30     | 0.0 | 0.84      | 11.83     | 6.84      | 20.92     |
 | min:     | 6         | 0   | 0         | 2         | 1         | 3         |
 | max:     | 51        | 0   | 24        | 28        | 13        | 41        |
+
+
+## Second counting:
+[test, add, sub, total shifts]
+
+
