@@ -73,7 +73,7 @@ NUM ami(NUM a, NUM p) //the real algorithm is in this function - Almost Montgome
             if (x == 0)
             {
                 FILE *fp;
-                fp = fopen("secondresults4.txt", "w+");
+                fp = fopen("secondresults4.txt", "a");
                 fprintf(fp, "%d %d %d %d %d %d %d\n", a, r, p, test, add, sub, shift);
                 fclose(fp);
                 return (0);
