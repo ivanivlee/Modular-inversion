@@ -69,6 +69,35 @@ int bit(NUM n, int bit)
         }
 }
 
+int bits(NUM n, int bit) //how many bits 0, 1, ... n are still zeros - valuation of two in this number
+{
+        for (size_t i = 0; i < bit+1; i++)
+        {
+            //printf("\nn = %d", n);
+            if ((n % 2) != 0)
+            {   
+                //printf("1");
+                return 1;
+            }
+            n = (n >> 1);
+        }
+        
+        //printf("0");
+        return 0;
+}
+
+int sizeofthebiggernumber(NUM u, NUM v)
+{
+    int n = (v < u) ? u : v;  
+    int count = 0; 
+    while (n) 
+    { 
+        count++; 
+        n >>= 1; 
+    } 
+    return count; 
+} 
+
 NUM leftshift(NUM a, NUM p) //the real algorithm is in this function 
 {
     //Phase 1
@@ -80,7 +109,7 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
     int cu = 0;
     int cv = 0;     //counters of left shifts
     //int size = sizeof(NUM);
-    int size = 5;
+    int size = sizeofthebiggernumber(u,v); // should be flexible by the larger number
     int i = 0;
 
         //to be erased, just text checkers
@@ -88,8 +117,8 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
         printf("v = %d, ", v); bin(v);
         printf("r = %d, ", r); bin(r);
         printf("s = %d, ", s); bin(s);
-        printf("cu = %d, 2^cu = %d ", cu, power(2, cu)); bin(cu);
-        printf("cv = %d, 2^cv = %d ", cv, power(2, cv)); bin(cv); 
+        printf("cu = %d, 2^cu = %d ", cu, power(2, cu)); 
+        printf("cv = %d, 2^cv = %d ", cv, power(2, cv));  
 
 
     while (u != power(2, cu) && u != -(power(2, cu)) && v != power(2, cv) && v != -(power(2, cv))) 
@@ -97,30 +126,41 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
     //while (i < 11)
     {   
         i++; 
-        NUM mask = 0b11 << (size - 2);
+       // NUM mask = 0b11 << (size - 2);
         printf("_______________________________________________________________________________________________________\n");
-        printf("%d, mask: ",i);
-        bin(mask);
+      //  printf("%d, mask: ",i);
+      //  bin(mask);
         printf("\n");
         
-        if (((mask&u) == 0) || (((mask&u) == mask) && ((u<<2) != 0)))
+       // if (((mask&u) == 0) || (((mask&u) == mask) && ((u<<2) != 0)))
+        if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
             //first change: removing if, going straight to the second branch
             
                 u = (u<<1);
                 printf("u = %d\n",u); bin(u);
                 s = (s>>1);
+                if (s == -1)
+                {
+                    s = 0;
+                }
+                
                 printf("s = %d\n",s); bin(s);
                 cu++;
             
         }
-        else if (((mask&v) == 0) || (((mask&v) == mask) && (v<<2) != 0))
+        else if ((bit(v, size) == 0 && bit(v, size-1) == 0)|| ((bit(v, size) == 1 && bit(v, size-1) == 1) && (bits(v, size-2) == 1)))
         {
             //second change: removing if, going straight to the second branch
             
                 v = (v<<1);
                 printf("v = %d\n",v); bin(v);
                 r = (r>>1);
+                if ( r == -1)
+                {
+                    r = 0;
+                }
+                
                 printf("r = %d\n",r); bin(r);
                 cv++;
           
@@ -232,12 +272,13 @@ int main(int argc, char* argv[])
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
     
-    //leftshift( a, p);
-    bin(13);
-    printf("%d\n", bit(13, 0));
-    printf("%d\n", bit(13, 1));
-    printf("%d\n", bit(13, 2));
-    printf("%d\n", bit(13, 3));
+    leftshift( a, p);
+
+    
+    
+   
+  
+    
     
     
     return 0;
