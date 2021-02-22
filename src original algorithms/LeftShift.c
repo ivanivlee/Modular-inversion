@@ -199,7 +199,6 @@ NUM leftshift(NUM a, NUM p) //the real algorithm is in this function
 }
 
 
-
 // in: integer a, prime p, 1 <= a <= p - two parametres from terminal
 int main(int argc, char* argv[])
 {
