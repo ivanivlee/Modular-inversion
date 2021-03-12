@@ -2,8 +2,6 @@
 #include<stdlib.h>
 
 typedef signed short NUM; 
-//signed int has 16 bits, -32768 to 32767
-
 NUM a, p; //input - element a, prime p
 
 int inputCountCheck(int argCount)    //checks number of arguments 
@@ -104,26 +102,24 @@ int LS(NUM a , NUM p)
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
         printf("s = %d, ", s); bin(s, size);
-        printf("Rmu = ");bin(Rmu, size);
-        printf("Rmv = ");bin(Rmv, size);
         printf("_______________________________________________________________________________________________________\n");
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
-            printf("posuv u\n");
+            //printf("posuv u\n");
             u = (u<<1);
             if (Rmu >= Rmv)   { r = (r<<1);} else { s = (s>>1);}
             Rmu = (Rmu<<1);
         }
         else if ((bit(v, size) == 0 && bit(v, size-1) == 0)|| ((bit(v, size) == 1 && bit(v, size-1) == 1) && (bits(v, size-2) == 1)))
         {
-            printf("posuv v\n");
+            //printf("posuv v\n");
             v = (v<<1);
             if (Rmv >= Rmu)   { s = (s<<1);} else { r = (r>>1);}
             Rmv = (Rmv<<1);
         }
         else
         {
-            printf("oper\n");
+            //printf("oper\n");
             NUM oper; //0 is minus, 1 is plus
             if (bit(u, size) == bit(v, size)) //check if the signs are the same
             {
@@ -152,8 +148,8 @@ int LS(NUM a , NUM p)
     printf("v = %d, ", v); bin(v, size);
     printf("r = %d, ", r); bin(r, size);
     printf("s = %d, ", s); bin(s, size);
-    printf("Rmu = ");bin(Rmu, size);
-    printf("Rmv = ");bin(Rmv, size);
+    //printf("Rmu = ");bin(Rmu, size);
+    //printf("Rmv = ");bin(Rmv, size);
     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
     {
         r = s;

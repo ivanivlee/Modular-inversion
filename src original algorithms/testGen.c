@@ -121,6 +121,8 @@ int fileGen (unsigned int count, int alg) //generates test data and stores them 
     {
         testGen(j, fPtr, alg);
     }
+    
+    fprintf(fPtr, "$SHELL");
 
     fclose(fPtr);
     
