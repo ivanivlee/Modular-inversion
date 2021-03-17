@@ -97,35 +97,39 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     NUM Rmv = 1; //2^cv
     int size = sizeOfTheBiggerNumber(u,v); // should be flexible by the larger number
     int i = 0;
+
+    //counters
+    int add = 0;
+    int sub = 0;
+    int shift = 0;
+    int even = 0;
+    int poz = 0;
         
 
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
     {   
-        i++;
-        printf("u = %d, ", u); bin(u, size);
+        /*printf("u = %d, ", u); bin(u, size);
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
         printf("s = %d, ", s); bin(s, size);
         printf("_______________________________________________________________________________________________________\n");
-        
+        */
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
             //first change: removing if, going straight to the second branch
             
-                u = (u<<1);
-                Rmu = (Rmu<<1);
-                if ( s%2 == 0)
+                u = (u<<1); shift++;
+                Rmu = (Rmu<<1); shift++;
+                even++;
+                if ( s%2 == 0) 
                 {
-                    s = (s>>1);
+                    s = (s>>1); shift++;
                 }
                 else
                 {
-                    s = s + p;
-                    s = (s>>1);
+                    s = s + p; add++;
+                    s = (s>>1); shift++;
                 }
-                
-                
-                //printf("s = %d\n",s); bin(s);
                 cu++;
             
         }
@@ -133,16 +137,17 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
         {
             //second change: removing if, going straight to the second branch
             
-                v = (v<<1);
-                Rmv = (Rmv<<1); 
+                v = (v<<1); shift++;
+                Rmv = (Rmv<<1); shift++;
+                even++;
                 if ( r%2 == 0)
                 {
-                    r = (r>>1);
+                    r = (r>>1);shift++;
                 }
                 else
                 {
-                    r = r + p;
-                    r = (r>>1);
+                    r = r + p;add++;
+                    r = (r>>1);shift++;
                 }
                 
                 cv++;
@@ -154,42 +159,35 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
            if (bit(u, size) == bit(v, size))//check if the signs are the same
             {
                 oper = 0; //minus
+                sub++;sub++;
             }
             else
             {
                 oper = 1; //plus
+                add++;add++;
             }
+            sub++;
             if (cu <= cv)
             {
                 //printf("cu <= cv\n");
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
+                sub++;
+                if (r > p) { r = r - p; sub++; } //second correction
             }
             else
             {
                 //printf("cv <= cu\n");
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
+                sub++;
+                if (s > p) { s = s - p; sub++;} //second correction
             }
-            //r = (r % p);
-            //s = (s % p);
-            /*printf("u = %d\n",u); bin(u);
-            printf("v = %d\n",v); bin(v);
-            printf("r = %d\n",r); bin(r);
-            printf("s = %d\n",s); bin(s);*/
-        
+            
         }   
-        /*printf("u = %d, ", u); bin(u);
-        printf("v = %d, ", v); bin(v);
-        printf("r = %d, ", r); bin(r);
-        printf("s = %d, ", s); bin(s);
-        printf("cu = %d, 2^cu = %d ", cu, power(2, cu)); bin(cu);
-        printf("cv = %d, 2^cv = %d ", cv, power(2, cv)); bin(cv);
-        printf("mask&u ");bin(mask&u);
-        printf("mask&v ");bin(mask&v); */
+       
     }
 
-    //if (v == power(2,cv) || v == -power(2,cv))
     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
     {
         r = s;
@@ -201,38 +199,41 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
         //u = (bit(v, size)<<(size-1)) + bits(u, size-1);
         cv = cu;
     }
-    
+    poz++;
     if (u < 0)
     {
+        poz++;
         if (r < 0)
         {
             r = -r;
         }
         else
         {
+            sub++;
             r = p - r;
         }  
     }
-    
+    poz++;
     if (r < 0)
     {
-        r = r + p;
+        r = r + p; add++;
     }
     
     for (size_t i = 1; i < (cv + 1); i++)
     {
-        r = (r<<1);
+        r = (r<<1); shift++;
+        sub++;
         if (r >= p)
         {
-            r = (r - p);
+            r = (r - p); sub++;
         }
-        
-    }
-    r = (r % p);
-    if (r < 0)
-    {
-        r = r + p;
-    }
+        poz++;
+        if (r < 0)
+        {
+            r = r + p; add++;
+        }
+    } 
+    
     
     printf("%d %d %d %d\n", a, r, p, (r*a)%p);
     
