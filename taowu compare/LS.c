@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include<stdlib.h>
-//#include <math.h> 
 
 typedef signed short NUM; 
-NUM a, p; //from input
+NUM a, p; //input - element a, prime p
 
 int inputCountCheck(int argCount)    //checks number of arguments 
 {
@@ -33,7 +32,6 @@ int inputSizeCheck(NUM a, NUM p)    //checks whether 1 <= a <= p or not
     }
     return 0;
 }
-
 int bin(NUM n, NUM length) //display binary of SIGNED NUM
 { 
     NUM i;  
@@ -43,10 +41,19 @@ int bin(NUM n, NUM length) //display binary of SIGNED NUM
         (n & i)? printf("1 "): printf("0 ");  
     printf("\n");
     return 0;
-}  
-
-
-int bit(NUM n, int bit)
+} 
+int sizeOfTheBiggerNumber(NUM u, NUM v)
+{
+    int n = (v < u) ? u : v;  
+    int count = 0; 
+    while (n) 
+    { 
+        count++; 
+        n >>= 1; 
+    } 
+    return count; 
+} 
+int bit(NUM n, int bit) //value of nth MSB bit
 {
         n = (n >> bit);
         if (n % 2 == 0)
@@ -58,7 +65,6 @@ int bit(NUM n, int bit)
             return 1;
         }
 }
-
 int bits(NUM n, int bit) //how many bits 0, 1, ... n are still zeros - valuation of two in this number
 {
         for (size_t i = 0; i < bit+1; i++)
@@ -75,117 +81,83 @@ int bits(NUM n, int bit) //how many bits 0, 1, ... n are still zeros - valuation
         //printf("0");
         return 0;
 }
-
-int sizeOfTheBiggerNumber(NUM u, NUM v)
+int LS(NUM a , NUM p)
 {
-    int n = (v < u) ? u : v;  
-    int count = 0; 
-    while (n) 
-    { 
-        count++; 
-        n >>= 1; 
-    } 
-    return count; 
-} 
-
-NUM TaoWu(NUM a, NUM p) //the real algorithm is in this function 
-{
-    //Phase 1
     NUM u = p;
     NUM v = a;
     NUM r = 0;
-    NUM s = 1;     
-    //NUM maskU, maskV;
-    NUM cu = 0;
-    NUM cv = 0;     //counters of left shifts
+    NUM s = 1;
     NUM Rmu = 1; //2^cu
     NUM Rmv = 1; //2^cv
-    //int size = sizeof(NUM);
-    NUM size = sizeOfTheBiggerNumber(u,v); // should be flexible by the larger number
+    NUM size = sizeOfTheBiggerNumber(u,v);
+
+    //counters
+    int add = 0;
+    int sub = 0;
+    int shift = 0;
+    int even = 0;
+    int poz = 0;
+    int loop = 0; //while loop iterations, should be fbr+sbr+tbr = loop
+    int fbr = 0;  //first branch
+    int sbr = 0;  //second branch
+    int tbr = 0;  //third branch
     
 
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
-    {   
+    {
+        loop++;
+        /*printf("u = %d, ", u); bin(u, size);
+        printf("v = %d, ", v); bin(v, size);
+        printf("r = %d, ", r); bin(r, size);
+        printf("s = %d, ", s); bin(s, size);
+        printf("_______________________________________________________________________________________________________\n");
+        */
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
-            //first change: removing if, going straight to the second branch
-            
-                u = (u<<1);
-               
-                if ( s%2 == 0)
-                {
-                    s = (s>>1);
-                }
-                else
-                {
-                    s = s + p;
-                    s = (s>>1);
-                }
-                cu++;
-                Rmu = (Rmu<<1);
-            
+            fbr++; //entered the first branch
+            u = (u<<1); shift++;
+            if (Rmu >= Rmv)   { r = (r<<1); shift++;} else { s = (s>>1); shift++;}
+            Rmu = (Rmu<<1); 
         }
         else if ((bit(v, size) == 0 && bit(v, size-1) == 0)|| ((bit(v, size) == 1 && bit(v, size-1) == 1) && (bits(v, size-2) == 1)))
         {
-            //second change: removing if, going straight to the second branch
-            
-                v = (v<<1);
-               
-                if ( r%2 == 0)
-                {
-                    r = (r>>1);
-                }
-                else
-                {
-                    r = r + p;
-                    r = (r>>1);
-                }
-                cv++;
-                Rmv = (Rmv<<1);
-          
+            sbr++; //entered the second branch
+            v = (v<<1); shift++;
+            if (Rmv >= Rmu)   { s = (s<<1); shift++;} else { r = (r>>1); shift++;}
+            Rmv = (Rmv<<1); shift++;
         }
         else
         {
+            tbr++; //entered the third branch
             NUM oper; //0 is minus, 1 is plus
-            if (bit(u, size) == bit(v, size))//check if the signs are the same
+            if (bit(u, size) == bit(v, size)) //check if the signs are the same
             {
                 oper = 0; //minus
+                sub++;sub++; //two subtractions will happen
             }
             else
             {
                 oper = 1; //plus
+                add++;add++; //two additions will happen
             }
-            if (cu <= cv)
+            sub++; //comparison will be performed by subtraction
+            if (Rmu <= Rmv)
             {
-                //printf("cu <= cv\n");
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
             }
             else
             {
-                //printf("cv <= cu\n");
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
             }
-            r = (r % p);
-            s = (s % p);
-            
-        
-        }   
-        printf("u = %d, ", u); bin(u, size);
-        printf("v = %d, ", v); bin(v, size);
-        printf("r = %d, ", r); bin(r, size);
-        printf("s = %d, ", s); bin(s, size);
-        printf("_______________________________________________________________________________________________________\n");
-        
+        } 
     }
-
-     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
+    if (((v^Rmv) == 0) || ((v+Rmv) == 0))
     {
         r = s;
         u = v;
     }
-
     if (u < 0)
     {
         if (r < 0)
@@ -195,37 +167,22 @@ NUM TaoWu(NUM a, NUM p) //the real algorithm is in this function
         else
         {
             r = p - r;
-        }  
-    }
-    
-    if (r < 0)
-    {
-        r = r + p;
-    }
-    
-    for (size_t i = 1; i < (cv + 1); i++)
-    {
-        r = (r<<1);
-        if (r >= p)
-        {
-            r = (r - p);
         }
-        
     }
-    r = (r % p);
     if (r < 0)
     {
-        r = r + p;
+        r = r + p;  
     }
+    //printf("%d * %d = %d mod %d", a, r, (a*r)%p, p);
     
-    printf("%d %d %d %d\n", a, r, p, (r*a)%p);
-    
+    FILE *fp;
+    fp = fopen("LS.txt", "a");
+    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr);
+    fclose(fp);
     return 0;
 }
 
 
-
-// in: integer a, prime p, 1 <= a <= p - two parametres from terminal
 int main(int argc, char* argv[])
 {
     //check and prepare input
@@ -234,7 +191,7 @@ int main(int argc, char* argv[])
     p = atoi(argv[2]); 
     if (inputSizeCheck(a, p) == 1){return 1;}
     
-    TaoWu(a, p);
+    LS(a, p);
 
     return 0;
 }
