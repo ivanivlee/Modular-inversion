@@ -83,73 +83,76 @@ int bits(NUM n, int bit) //how many bits 0, 1, ... n are still zeros - valuation
 }
 int LS(NUM a , NUM p)
 {
-    //line 1, 2 - initialize
     NUM u = p;
     NUM v = a;
     NUM r = 0;
     NUM s = 1;
-    //NUM cu = 0;
-    //NUM cv = 0;
-    //mask registers
     NUM Rmu = 1; //2^cu
     NUM Rmv = 1; //2^cv
-    //size n
     NUM size = sizeOfTheBiggerNumber(u,v);
-    //line 3 - while loop
+
+    //counters
+    int add = 0;
+    int sub = 0;
+    int shift = 0;
+    int even = 0;
+    int poz = 0;
+    int loop = 0; //while loop iterations, should be fbr+sbr+tbr = loop
+    int fbr = 0;  //first branch
+    int sbr = 0;  //second branch
+    int tbr = 0;  //third branch
+    int sign = 0; //check if signs are the same
+
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
     {
-        printf("u = %d, ", u); bin(u, size);
+        loop++;
+        /*printf("u = %d, ", u); bin(u, size);
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
         printf("s = %d, ", s); bin(s, size);
         printf("_______________________________________________________________________________________________________\n");
+        */
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
-            //printf("posuv u\n");
-            u = (u<<1);
-            if (Rmu >= Rmv)   { r = (r<<1);} else { s = (s>>1);}
-            Rmu = (Rmu<<1);
+            fbr++; //entered the first branch
+            u = (u<<1); shift++;
+            if (Rmu >= Rmv)   { r = (r<<1); shift++;} else { s = (s>>1); shift++;}
+            Rmu = (Rmu<<1); 
         }
         else if ((bit(v, size) == 0 && bit(v, size-1) == 0)|| ((bit(v, size) == 1 && bit(v, size-1) == 1) && (bits(v, size-2) == 1)))
         {
-            //printf("posuv v\n");
-            v = (v<<1);
-            if (Rmv >= Rmu)   { s = (s<<1);} else { r = (r>>1);}
-            Rmv = (Rmv<<1);
+            sbr++; //entered the second branch
+            v = (v<<1); shift++;
+            if (Rmv >= Rmu)   { s = (s<<1); shift++;} else { r = (r>>1); shift++;}
+            Rmv = (Rmv<<1); shift++;
         }
         else
         {
-            //printf("oper\n");
+            tbr++; //entered the third branch
             NUM oper; //0 is minus, 1 is plus
             if (bit(u, size) == bit(v, size)) //check if the signs are the same
             {
                 oper = 0; //minus
+                sub++;sub++; //two subtractions will happen
             }
             else
             {
                 oper = 1; //plus
+                add++;add++; //two additions will happen
             }
-            //printf("oper = %d\n", oper);
+            sub++; //comparison will be performed by subtraction
             if (Rmu <= Rmv)
             {
-                //printf("cu <= cv\n");
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
             }
             else
             {
-                //printf("cv <= cu\n");
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
             }
         } 
     }
-    printf("u = %d, ", u); bin(u, size);
-    printf("v = %d, ", v); bin(v, size);
-    printf("r = %d, ", r); bin(r, size);
-    printf("s = %d, ", s); bin(s, size);
-    //printf("Rmu = ");bin(Rmu, size);
-    //printf("Rmv = ");bin(Rmv, size);
     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
     {
         r = s;
@@ -170,18 +173,9 @@ int LS(NUM a , NUM p)
     {
         r = r + p;  
     }
-    printf("%d %d %d \n", a, r, p);
-    printf("%d * %d = %d mod %d", a, r, (a*r)%p, p);
+    //printf("%d * %d = %d mod %d", a, r, (a*r)%p, p);
     return 0;
 }
-
-
-
-
-
-
-
-
 
 
 int main(int argc, char* argv[])

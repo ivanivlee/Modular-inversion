@@ -9,3 +9,9 @@ Now the counting. We count shifts, additions and subtractions, tests if greater 
 - sub
 - even
 - poz
+added:
+loop  //while loop iterations, should be fbr+sbr+tbr = loop
+fbr   //first branch
+sbr   //second branch
+tbr   //third branch
+sign  //checking the sign in the third branch

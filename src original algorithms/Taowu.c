@@ -89,10 +89,9 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     NUM u = p;
     NUM v = a;
     NUM r = 0;
-    NUM s = 1;      //init
-    //NUM maskU, maskV;
+    NUM s = 1;   //init
     int cu = 0;
-    int cv = 0;     //counters of left shifts
+    int cv = 0;  //counters of left shifts
     NUM Rmu = 1; //2^cu
     NUM Rmv = 1; //2^cv
     int size = sizeOfTheBiggerNumber(u,v); // should be flexible by the larger number
@@ -104,10 +103,15 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     int shift = 0;
     int even = 0;
     int poz = 0;
+    int loop = 0; //while loop iterations, should be fbr+sbr+tbr = loop
+    int fbr = 0;  //first branch
+    int sbr = 0;  //second branch
+    int tbr = 0;  //third branch
         
 
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
     {   
+        loop++;
         /*printf("u = %d, ", u); bin(u, size);
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
@@ -116,76 +120,68 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
         */
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
-            //first change: removing if, going straight to the second branch
-            
-                u = (u<<1); shift++;
-                Rmu = (Rmu<<1); shift++;
-                even++;
-                if ( s%2 == 0) 
-                {
-                    s = (s>>1); shift++;
-                }
-                else
-                {
-                    s = s + p; add++;
-                    s = (s>>1); shift++;
-                }
-                cu++;
-            
+            fbr++; //entered the first branch
+            u = (u<<1); shift++; //left shift is performed right away
+            Rmu = (Rmu<<1); 
+            cu++; //counter
+            even++; //if s is even
+            if (s%2 == 0) 
+            {
+                s = (s>>1); shift++;
+            }
+            else
+            {
+                s = s + p; add++; //first correction - we need to divide even number by two
+                s = (s>>1); shift++;
+            }
         }
         else if ((bit(v, size) == 0 && bit(v, size-1) == 0)|| ((bit(v, size) == 1 && bit(v, size-1) == 1) && (bits(v, size-2) == 1)))
         {
-            //second change: removing if, going straight to the second branch
-            
-                v = (v<<1); shift++;
-                Rmv = (Rmv<<1); shift++;
-                even++;
-                if ( r%2 == 0)
-                {
-                    r = (r>>1);shift++;
-                }
-                else
-                {
-                    r = r + p;add++;
-                    r = (r>>1);shift++;
-                }
-                
-                cv++;
-          
+            sbr++; //entered the second branch
+            v = (v<<1); shift++;
+            Rmv = (Rmv<<1); 
+            cv++;
+            even++;
+            if (r%2 == 0)
+            {
+                r = (r>>1); shift++;
+            }
+            else
+            {
+                r = r + p; add++;
+                r = (r>>1); shift++;
+            }
         }
         else
         {
+            tbr++; //entered the third branch
             NUM oper; //0 is minus, 1 is plus
-           if (bit(u, size) == bit(v, size))//check if the signs are the same
+            if (bit(u, size) == bit(v, size))//check if the signs are the same
             {
                 oper = 0; //minus
-                sub++;sub++;
+                sub++;sub++; //two subtractions will happen
             }
             else
             {
                 oper = 1; //plus
-                add++;add++;
+                add++;add++; //two additions will happen
             }
-            sub++;
+            sub++; //comparison will be performed by subtraction
             if (cu <= cv)
             {
-                //printf("cu <= cv\n");
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
-                sub++;
-                if (r > p) { r = r - p; sub++; } //second correction
+                sub++; //comparison
+                if (r > p) { r = r - p; sub++; } 
             }
             else
             {
-                //printf("cv <= cu\n");
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
                 sub++;
-                if (s > p) { s = s - p; sub++;} //second correction
+                if (s > p) { s = s - p; sub++;} 
             }
-            
         }   
-       
     }
 
     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
@@ -199,38 +195,34 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
         //u = (bit(v, size)<<(size-1)) + bits(u, size-1);
         cv = cu;
     }
-    poz++;
     if (u < 0)
     {
-        poz++;
         if (r < 0)
         {
             r = -r;
         }
         else
         {
-            sub++;
             r = p - r;
         }  
     }
-    poz++;
     if (r < 0)
     {
-        r = r + p; add++;
+        r = r + p; 
     }
     
     for (size_t i = 1; i < (cv + 1); i++)
     {
         r = (r<<1); shift++;
-        sub++;
         if (r >= p)
         {
-            r = (r - p); sub++;
+            r = (r - p); 
+            sub++;
         }
-        poz++;
         if (r < 0)
         {
-            r = r + p; add++;
+            r = r + p; 
+            add++;
         }
     } 
     
