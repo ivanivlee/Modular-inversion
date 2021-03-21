@@ -11,7 +11,7 @@ int algorithm;
 
 int advice()
 {
-    printf("Expected usage: ./testgen <upper bound for the size of the primes> <ID of the algorithm>\nEnter 1 for modified Penk, 2 for Montgomery, 3 for LeftShift.\n");
+    printf("Expected usage: ./testgen <upper bound for the size of the primes> <ID of the algorithm>\nEnter 1 for modified Penk, 2 for Montgomery, 3 for LeftShift, 6 for Tao Wu.\n");
     printf("Upper bound should be between 1 and 100000.\n");
     return 0;
 }
@@ -109,6 +109,9 @@ int fileGen (unsigned int count, int alg) //generates test data and stores them 
     case 2:
         fprintf(fPtr, "gcc montgomery.c -o alg2\n");
         break;
+    case 6:
+        fprintf(fPtr, "gcc Taowu.c -o alg6\n");
+        break;
     default:
         fprintf(fPtr, "gcc LeftShift.c -o alg3\n");
         break;
@@ -118,6 +121,8 @@ int fileGen (unsigned int count, int alg) //generates test data and stores them 
     {
         testGen(j, fPtr, alg);
     }
+    
+    fprintf(fPtr, "$SHELL");
 
     fclose(fPtr);
     
