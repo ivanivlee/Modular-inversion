@@ -177,7 +177,7 @@ int LS(NUM a , NUM p)
     
     FILE *fp;
     fp = fopen("LS.txt", "a");
-    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr);
+    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr, Rmu, Rmv);
     fclose(fp);
     return 0;
 }

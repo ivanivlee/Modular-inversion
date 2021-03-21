@@ -229,7 +229,7 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     
     FILE *fp;
     fp = fopen("TW.txt", "a");
-    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr);
+    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr, cu, cv);
     fclose(fp);
     return 0; 
 }

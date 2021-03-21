@@ -25,19 +25,6 @@ In the beginning, a brief comparison between the three algorithms has been made.
 
 
 ### Algorithm 3 - New left shift algorithm
-<<<<<<< HEAD
-|    | test | even | add | sub | rshift | lshift |
-| ---|---------- |-------------| -----|---|---|---|
-| average: | 23.30     | 0.0 | 0.84      | 11.83     | 6.84      | 20.92     |
-| min:     | 6         | 0   | 0         | 2         | 1         | 3         |
-| max:     | 51        | 0   | 24        | 28        | 13        | 41        |
-
-
-## Second counting:
-[test, add, sub, total shifts]
-
-
-=======
 |    | test |  add | sub | rshift |
 | ---|---------- |-------------| -----|---|
 | average: | 23.30     | 0.84      | 11.83     | 27.76    |
@@ -54,9 +41,14 @@ In the beginning, a brief comparison between the three algorithms has been made.
 ### Algorithm 4 - AMI subtraction free algorithm
 |    | test |  add | sub | rshift |
 | ---|---------- |-------------| -----|---|
-
+| average: | 0.0| 10.21| 15.31| 40.97|
+| min:     |0| 2| 2| 4|
+| max:     |0| 14| 26| 52|
 
 ### Algorithm 5 - AMI algorithm with subtractions
 |    | test |  add | sub | rshift |
 | ---|---------- |-------------| -----|---|
->>>>>>> refs/remotes/origin/master
+| average:|0.0| 20.42| 0.0| 40.97|
+| min:| 0 | 4 | 0 | 4 |
+| max:| 0 | 28 | 0| 52 |
+
