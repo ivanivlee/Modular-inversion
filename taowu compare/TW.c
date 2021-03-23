@@ -172,14 +172,22 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
                 sub++; //comparison
-                if (r > p) { r = r - p; sub++; } 
+                //if (r > p) { r = r - p; sub++; } 
+                if ((r > p) || (r < -p))   
+                {
+                    r = r % p;
+                }
             }
             else
             {
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
                 sub++;
-                if (s > p) { s = s - p; sub++;} 
+                //if (s > p) { s = s - p; sub++;} 
+                if ((s > p) || (s < -p))   
+                {
+                    s = s % p;
+                }
             }
         }   
     }
