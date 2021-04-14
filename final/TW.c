@@ -97,13 +97,15 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     int size = sizeOfTheBiggerNumber(u,v); // should be flexible by the larger number
     int i = 0;
 
-    //counters
+     //counters
     int add = 0;
     int sub = 0;
     int shift = 0;
     int even = 0;
-    int poz = 0;
-    int loop = 0; //while loop iterations, should be fbr+sbr+tbr = loop
+    int test = 0;
+    int zero = 0;
+    int neg = 0;
+    int loop = 0;
     int fbr = 0;  //first branch
     int sbr = 0;  //second branch
     int tbr = 0;  //third branch
@@ -112,12 +114,13 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
     {   
         loop++;
-        printf("u = %d, ", u); bin(u, size);
+        /*printf("u = %d, ", u); bin(u, size);
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
         printf("s = %d, ", s); bin(s, size);
         printf("_______________________________________________________________________________________________________\n");
-        
+        */
+
         if ((bit(u, size) == 0 && bit(u, size-1) == 0)|| ((bit(u, size) == 1 && bit(u, size-1) == 1) && (bits(u, size-2) == 1)))
         {
             fbr++; //entered the first branch
@@ -167,9 +170,9 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
                 add++;add++; //two additions will happen
             }
             sub++; //comparison will be performed by subtraction
-            printf("%d\n", oper);
-            printf("u = %d, ", u); bin(u, size);
-            printf("v = %d, ", v); bin(v, size);
+            //printf("%d\n", oper);
+            //printf("u = %d, ", u); bin(u, size);
+            //printf("v = %d, ", v); bin(v, size);
             if (cu <= cv)
             {
                 u = (oper == 0) ? (u - v) : (u + v);
@@ -178,9 +181,9 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
                 //if (r > p) { r = r - p; sub++; } 
                 if ((r > p) || (r < -p))   
                 {
-                    printf("r = %d, ", r); bin(r, size);
-                    //r = r % p;
-                    printf("r = %d, ", r); bin(r, size);
+                    //printf("r = %d, ", r); bin(r, size);
+                    r = r % p;
+                    //printf("r = %d, ", r); bin(r, size);
                 }
             }
             else
@@ -191,9 +194,9 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
                 //if (s > p) { s = s - p; sub++;} 
                 if ((s > p) || (s < -p))   
                 {
-                    printf("s = %d, ", s); bin(s, size);
+                    //printf("s = %d, ", s); bin(s, size);
                     s = s % p;
-                    printf("s = %d, ", s); bin(s, size);
+                    //printf("s = %d, ", s); bin(s, size);
                 }
             }
         }   
@@ -225,13 +228,13 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     {
         r = r + p; 
     }
-        printf("Result Phase 1\n");
+        /*printf("Result Phase 1\n");
         printf("u = %d, ", u); bin(u, size);
         printf("v = %d, ", v); bin(v, size);
         printf("r = %d, ", r); bin(r, size);
         printf("s = %d, ", s); bin(s, size);
         printf("_______________________________________________________________________________________________________\n");
-        
+        */
     
     for (size_t i = 1; i < (cv + 1); i++)
     {
@@ -241,21 +244,21 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
             r = (r - p); 
             sub++;
         }
-        printf("r = %d, ", r); bin(r, size);
+        //printf("r = %d, ", r); bin(r, size);
         if (r < 0)
         {
             r = r + p; 
             add++;
         }
-        printf("r = %d, ", r); bin(r, size);
-        printf("_______________________________________________________________________________________________________\n");
+        //printf("r = %d, ", r); bin(r, size);
+        //printf("_______________________________________________________________________________________________________\n");
         
     } 
     
     
     FILE *fp;
-    fp = fopen("TW.txt", "a");
-    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, poz, loop, fbr, sbr, tbr, cu, cv);
+    fp = fopen("a6.txt", "a");
+    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, neg, loop, fbr, sbr, tbr, cu, cv);
     fclose(fp);
     return 0; 
 }
