@@ -104,6 +104,7 @@ int LS(NUM a , NUM p)
     int sbr = 0;
     int tbr = 0;
     
+    
 
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
     {
@@ -126,7 +127,7 @@ int LS(NUM a , NUM p)
             sbr++; //entered the second branch
             v = (v<<1); shift++;
             if (Rmv >= Rmu)   { s = (s<<1); shift++;} else { r = (r>>1); shift++;}
-            Rmv = (Rmv<<1); shift++;
+            Rmv = (Rmv<<1); 
         }
         else
         {
@@ -141,8 +142,7 @@ int LS(NUM a , NUM p)
             {
                 oper = 1; //plus
                 add++;add++; //two additions will happen
-            }
-            sub++; //comparison will be performed by subtraction
+            }       
             if (Rmu <= Rmv)
             {
                 u = (oper == 0) ? (u - v) : (u + v);
@@ -155,7 +155,7 @@ int LS(NUM a , NUM p)
             }
         } 
     }
-    loop++;
+    
 
     if (((v^Rmv) == 0) || ((v+Rmv) == 0))
     {
@@ -181,7 +181,7 @@ int LS(NUM a , NUM p)
     
     FILE *fp;
     fp = fopen("a3.txt", "a");
-    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, (r*a)%p, add ,sub, shift, even, loop, fbr, sbr, tbr, Rmu, Rmv);
+    fprintf(fp, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", a, r, p, shift, add ,sub, test, zero, neg, loop, even, fbr, sbr, tbr);
     fclose(fp);
     return 0;
 }
