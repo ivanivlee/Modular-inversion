@@ -109,6 +109,7 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     int fbr = 0;  //first branch
     int sbr = 0;  //second branch
     int tbr = 0;  //third branch
+    int mod = 0;
         
 
     while (((u^Rmu) != 0) && ((u+Rmu) != 0) && ((v^Rmv) != 0) && ((v+Rmv) != 0))
@@ -168,8 +169,7 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
             {
                 oper = 1; //plus
                 add++;add++; //two additions will happen
-            }
-            sub++; //comparison will be performed by subtraction
+            }         
             //printf("%d\n", oper);
             //printf("u = %d, ", u); bin(u, size);
             //printf("v = %d, ", v); bin(v, size);
@@ -177,12 +177,13 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
             {
                 u = (oper == 0) ? (u - v) : (u + v);
                 r = (oper == 0) ? (r - s) : (r + s);
-                sub++; //comparison
+                sub++sub++; neg++; //comparison
                 //if (r > p) { r = r - p; sub++; } 
                 if ((r > p) || (r < -p))   
                 {
                     //printf("r = %d, ", r); bin(r, size);
                     r = r % p;
+                    mod++;
                     //printf("r = %d, ", r); bin(r, size);
                 }
             }
@@ -190,12 +191,13 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
             {
                 v = (oper == 0) ? (v - u) : (v + u);
                 s = (oper == 0) ? (s - r) : (s + r);
-                sub++;
+                sub++sub++; neg++; //comparison
                 //if (s > p) { s = s - p; sub++;} 
                 if ((s > p) || (s < -p))   
                 {
                     //printf("s = %d, ", s); bin(s, size);
                     s = s % p;
+                    mod++;
                     //printf("s = %d, ", s); bin(s, size);
                 }
             }
@@ -239,12 +241,14 @@ int TW(NUM a, NUM p) //the real algorithm is in this function
     for (size_t i = 1; i < (cv + 1); i++)
     {
         r = (r<<1); shift++;
+        test++;
         if (r >= p)
         {
             r = (r - p); 
             sub++;
         }
         //printf("r = %d, ", r); bin(r, size);
+        zero;
         if (r < 0)
         {
             r = r + p; 
